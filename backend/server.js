@@ -32,7 +32,7 @@ app.get('/api/private', auth({block: true}), (req,res) => {
 
 app.get('/api/prublic', auth({block: false}), (req, res) => {
 	if (!res.locals.userId) return res.send('hello world prublic')
-	res.send(`hello world pryblicm your id is: ${res.locals.userId}`)
+	res.send(`hello world prublic your id is: ${res.locals.userId}`)
 })
 
 //error handler utolsonak
