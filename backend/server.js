@@ -1,43 +1,18 @@
 require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const { logger } = require('./middlewares/logger');
-const auth = require('./middlewares/auth');
-const { errorHandler } = require('./middlewares/errorHandler');
-
-const app = express();
-const port = process.env.PORT;
-
-app.use(
-	cors({
-		origin: process.env.APP_URL,
-	})
-)
-
-app.use(express.json());
-
-app.use(logger)
-app.use(auth)
+const mongoose = require('mongoose');
+const app = require('./app')
+const port = process.env.PORT
 
 
-app.get('/api/public', (req,res) => {
-	console.log('public')
-  res.send('Hello world - public')
-})
-app.get('/api/private', auth({block: true}), (req,res) => {
-	if (!res.locals.userId) return res.sendStatus(401)
-	console.log('private')
-	res.send(`Hello world - private id: ${res.locals.userId}!`)
-})
 
-app.get('/api/prublic', auth({block: false}), (req, res) => {
-	if (!res.locals.userId) return res.send('hello world prublic')
-	res.send(`hello world prublic your id is: ${res.locals.userId}`)
-})
-
-//error handler utolsonak
-app.use(errorHandler)
-
-app.listen(port, () => {
-	console.log(`Example app listening on port ${port}`)
-})
+// Connect MongoDB at default port 27017.
+mongoose.connect('mongodb://localhost:27017/templateDB', (err) => {
+	if (!err) {
+		console.log('MongoDB Connection Succeeded.')
+		app.listen(port, () => {
+			console.log(`Example app listening on port ${port}`)
+		})
+	} else {
+		console.log('Error in DB connection: ' + err)
+	}
+});

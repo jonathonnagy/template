@@ -30,7 +30,7 @@ var userSchema = new mongoose.Schema({
 		unique:true,
 		index:true,
 	},
-	googleID:{		//empty string NONO! + validation
+	googleId:{		//empty string NONO! + validation
 		type:String,
 		required:true,
 		unique:true,
@@ -39,7 +39,7 @@ var userSchema = new mongoose.Schema({
 	// 	type:String,
 	// 	required:true,
 	// },
-	dashboard: [dashboardSchema], //empty list is default
+	dashboards: [dashboardSchema], //empty list is default
 });
 
 module.exports = mongoose.model('User', userSchema);
